@@ -1,7 +1,12 @@
 package com.pedropaulino.creditapplicationsystem.controller
 
 import com.pedropaulino.creditapplicationsystem.dto.CustomerDto
+import com.pedropaulino.creditapplicationsystem.dto.CustomerView
+import com.pedropaulino.creditapplicationsystem.entity.Customer
 import com.pedropaulino.creditapplicationsystem.service.impl.CustomerService
+import org.springframework.web.bind.annotation.DeleteMapping
+import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
@@ -19,5 +24,15 @@ class CustomerController (
 
     return "Customer ${savedCustomer.email} saved!"
     }
+
+    @GetMapping("/{id}")
+    fun findById(@PathVariable id: Long) : CustomerView {
+        val customer: Customer = this.customerService.findById(id)
+
+        return CustomerView(customer)
+    }
+
+    @DeleteMapping("/id")
+    fun deleteById(@PathVariable id: Long) = this.customerService.delete(id)
 
 }
