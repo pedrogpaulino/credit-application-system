@@ -4,8 +4,10 @@ import com.pedropaulino.creditapplicationsystem.entity.Credit
 import com.pedropaulino.creditapplicationsystem.repository.CreditRepository
 import com.pedropaulino.creditapplicationsystem.repository.CustomerRepository
 import com.pedropaulino.creditapplicationsystem.service.ICreditService
+import org.springframework.stereotype.Service
 import java.util.*
 
+@Service
 class CreditService(
     private val creditRepository: CreditRepository,
     private val customerService: CustomerService
