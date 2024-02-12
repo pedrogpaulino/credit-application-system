@@ -5,6 +5,9 @@ import com.pedropaulino.creditapplicationsystem.dto.CustomerUpdateDto
 import com.pedropaulino.creditapplicationsystem.dto.CustomerView
 import com.pedropaulino.creditapplicationsystem.entity.Customer
 import com.pedropaulino.creditapplicationsystem.service.impl.CustomerService
+import org.springframework.http.HttpStatus
+import org.springframework.http.HttpStatusCode
+import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PatchMapping
@@ -18,22 +21,26 @@ import org.springframework.web.bind.annotation.RestController
 
 @RestController
 @RequestMapping("/api/customers")
-class CustomerController (
+class CustomerController(
         private val customerService: CustomerService
 ) {
 
     @PostMapping
-    fun saveCustomer(@RequestBody customerDto : CustomerDto) : String{
+    fun saveCustomer(@RequestBody customerDto: CustomerDto): ResponseEntity<String> {
         val savedCustomer = this.customerService.save(customerDto.toEntity())
 
-    return "Customer ${savedCustomer.email} saved!"
+        return ResponseEntity.status(HttpStatus.CREATED).body(
+                "Customer ${savedCustomer.email} saved!"
+        )
     }
 
     @GetMapping("/{id}")
-    fun findById(@PathVariable id: Long) : CustomerView {
+    fun findById(@PathVariable id: Long): ResponseEntity<CustomerView> {
         val customer: Customer = this.customerService.findById(id)
 
-        return CustomerView(customer)
+        return ResponseEntity.status(HttpStatus.OK).body(
+                CustomerView(customer)
+        )
     }
 
     @DeleteMapping("/id")
@@ -41,14 +48,13 @@ class CustomerController (
 
     @PatchMapping
     fun updateById(@RequestParam(value = "customerId") id: Long,
-                   @RequestBody customerUpdateDto: CustomerUpdateDto): CustomerView{
+                   @RequestBody customerUpdateDto: CustomerUpdateDto): ResponseEntity<CustomerView> {
 
-        val customer: Customer= this.customerService.findById(id)
+        val customer: Customer = this.customerService.findById(id)
         val customerToUpdate = customerUpdateDto.toEntity(customer)
-
         val customerUpdated: Customer = this.customerService.save(customerToUpdate)
 
-        return CustomerView(customerUpdated)
+        return ResponseEntity.status(HttpStatus.OK).body(CustomerView(customerUpdated))
     }
 
 }
