@@ -5,15 +5,14 @@ import com.pedropaulino.creditapplicationsystem.dto.CustomerUpdateDto
 import com.pedropaulino.creditapplicationsystem.dto.CustomerView
 import com.pedropaulino.creditapplicationsystem.entity.Customer
 import com.pedropaulino.creditapplicationsystem.service.impl.CustomerService
+import jakarta.validation.Valid
 import org.springframework.http.HttpStatus
-import org.springframework.http.HttpStatusCode
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PatchMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.PutMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestParam
@@ -26,7 +25,7 @@ class CustomerController(
 ) {
 
     @PostMapping
-    fun saveCustomer(@RequestBody customerDto: CustomerDto): ResponseEntity<String> {
+    fun saveCustomer(@RequestBody @Valid customerDto: CustomerDto): ResponseEntity<String> {
         val savedCustomer = this.customerService.save(customerDto.toEntity())
 
         return ResponseEntity.status(HttpStatus.CREATED).body(
@@ -43,12 +42,12 @@ class CustomerController(
         )
     }
 
-    @DeleteMapping("/id")
+    @DeleteMapping("/{id}")
     fun deleteById(@PathVariable id: Long) = this.customerService.delete(id)
 
     @PatchMapping
     fun updateById(@RequestParam(value = "customerId") id: Long,
-                   @RequestBody customerUpdateDto: CustomerUpdateDto): ResponseEntity<CustomerView> {
+                   @RequestBody @Valid customerUpdateDto: CustomerUpdateDto): ResponseEntity<CustomerView> {
 
         val customer: Customer = this.customerService.findById(id)
         val customerToUpdate = customerUpdateDto.toEntity(customer)
