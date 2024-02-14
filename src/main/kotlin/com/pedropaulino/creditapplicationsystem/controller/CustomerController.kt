@@ -29,7 +29,7 @@ class CustomerController(
         val savedCustomer = this.customerService.save(customerDto.toEntity())
 
         return ResponseEntity.status(HttpStatus.CREATED).body(
-                "Customer ${savedCustomer.email} saved!"
+                "Customer ${savedCustomer.firstName} saved!"
         )
     }
 
