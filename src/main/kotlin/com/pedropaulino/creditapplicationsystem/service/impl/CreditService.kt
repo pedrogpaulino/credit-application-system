@@ -1,6 +1,7 @@
 package com.pedropaulino.creditapplicationsystem.service.impl
 
 import com.pedropaulino.creditapplicationsystem.entity.Credit
+import com.pedropaulino.creditapplicationsystem.exception.BusinessException
 import com.pedropaulino.creditapplicationsystem.repository.CreditRepository
 import com.pedropaulino.creditapplicationsystem.service.ICreditService
 import org.springframework.stereotype.Service
@@ -22,8 +23,8 @@ class CreditService(
     override fun findAllByCustomer(customerId: Long): List<Credit> = this.creditRepository.findAllByCustomer(customerId)
 
     override fun findByCreditCode(customerId: Long, creditCode: UUID): Credit {
-        val credit = this.creditRepository.findByCreditCode(creditCode) ?: throw RuntimeException("Credit $creditCode not found")
+        val credit = this.creditRepository.findByCreditCode(creditCode) ?: throw BusinessException("Credit $creditCode not found")
 
-        return if (credit.customer?.id == customerId) credit else throw RuntimeException("Permission denied. Contact Admin!")
+        return if (credit.customer?.id == customerId) credit else throw BusinessException("Permission denied. Contact Admin!")
     }
 }
