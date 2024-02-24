@@ -22,5 +22,4 @@ class CustomerService(
         val customer: Customer = this.findById(customerID)
         this.customerRepository.delete(customer)
     }
-
 }

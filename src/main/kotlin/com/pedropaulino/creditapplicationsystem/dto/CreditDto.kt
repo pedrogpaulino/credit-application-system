@@ -18,7 +18,7 @@ data class CreditDto(
         @field:Positive(message = "Valor negativo ou zero!")
         //@field:Size(min = 1, max = 8, message = "O crédito deve haver no mínimo {min} parcelas e no máximo {max} parcelas")
         @field:Min(value = 1, message = "O número de parcelas deve ser no mínimo 1")
-        @field:Max(value = 8, message = "O número de parcelas deve ser no máximo 8")
+        @field:Max(value = 8, message = "O número de parcelas deve ser no máximo 48")
         val numberOfInstallments: Int,
 
         @field:NotNull(message = "Informe um ID!")

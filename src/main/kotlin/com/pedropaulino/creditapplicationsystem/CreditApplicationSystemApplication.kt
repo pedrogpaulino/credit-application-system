@@ -1,4 +1,4 @@
-package com.pedropaulino.creditapplicationsystem
+  package com.pedropaulino.creditapplicationsystem
 
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
